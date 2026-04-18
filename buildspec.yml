@@ -55,4 +55,11 @@ phases:
 artifacts:
   files:
     - "**/*"
+  exclude-paths:
+    - "tests/*"
+    - "buildspec.yml"
+    - "package.bat"
+    - "package.sh"
+    - "README.md"
+    - "runtime.txt"
   discard-paths: no
