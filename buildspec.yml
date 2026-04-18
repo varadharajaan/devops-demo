@@ -1,0 +1,58 @@
+version: 0.2
+
+env:
+  variables:
+    APP_NAME: "flask-eb-demo"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.13
+    commands:
+      - echo "=========================================="
+      - echo "[$APP_NAME] INSTALL PHASE STARTED at $(date '+%Y-%m-%d %H:%M:%S %Z')"
+      - echo "=========================================="
+      - echo "[$(date '+%H:%M:%S')] Installing application dependencies..."
+      - pip install -r requirements.txt
+      - echo "[$(date '+%H:%M:%S')] Installing test dependencies..."
+      - pip install pytest flake8
+      - echo "[$(date '+%H:%M:%S')] Python version: $(python --version)"
+      - echo "[$(date '+%H:%M:%S')] Pip packages installed:"
+      - pip list --format=columns
+      - echo "[$(date '+%H:%M:%S')] INSTALL PHASE COMPLETED"
+
+  pre_build:
+    commands:
+      - echo "=========================================="
+      - echo "[$APP_NAME] PRE_BUILD PHASE STARTED at $(date '+%Y-%m-%d %H:%M:%S %Z')"
+      - echo "=========================================="
+      - echo "[$(date '+%H:%M:%S')] Running unit tests..."
+      - python -m pytest tests/ -v --tb=short
+      - echo "[$(date '+%H:%M:%S')] Tests passed successfully!"
+      - echo "[$(date '+%H:%M:%S')] Running linter (flake8)..."
+      - flake8 app.py --max-line-length=120 --count --show-source --statistics
+      - echo "[$(date '+%H:%M:%S')] Linting passed!"
+      - echo "[$(date '+%H:%M:%S')] PRE_BUILD PHASE COMPLETED"
+
+  build:
+    commands:
+      - echo "=========================================="
+      - echo "[$APP_NAME] BUILD PHASE STARTED at $(date '+%Y-%m-%d %H:%M:%S %Z')"
+      - echo "=========================================="
+      - echo "[$(date '+%H:%M:%S')] Packaging application artifact..."
+      - echo "[$(date '+%H:%M:%S')] Artifact contents:"
+      - find . -not -path './.git/*' -not -path './.git' | head -50
+      - echo "[$(date '+%H:%M:%S')] BUILD PHASE COMPLETED"
+
+  post_build:
+    commands:
+      - echo "=========================================="
+      - echo "[$APP_NAME] POST_BUILD PHASE at $(date '+%Y-%m-%d %H:%M:%S %Z')"
+      - echo "=========================================="
+      - echo "[$(date '+%H:%M:%S')] Build finished. Deploying to Elastic Beanstalk..."
+      - echo "[$(date '+%H:%M:%S')] PIPELINE COMPLETE"
+
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no

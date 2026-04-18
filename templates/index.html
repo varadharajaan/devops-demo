@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flask Elastic Beanstalk Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+        .card {
+            max-width: 760px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        h1 { margin-top: 0; }
+        .muted { color: #6b7280; }
+        code {
+            background: #eef2ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        ul { line-height: 1.8; }
+        a.button {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>{{ app_name }}</h1>
+        <p class="muted">A minimal Python web app for GitHub → CodePipeline → Elastic Beanstalk.</p>
+        <ul>
+            <li>Open <code>/health</code> for a JSON health check.</li>
+            <li>Open <code>/error</code> to generate an application error log entry.</li>
+            <li>Check Elastic Beanstalk logs and CloudWatch Logs to see request and app logging.</li>
+        </ul>
+        <a class="button" href="/health">Test Health Endpoint</a>
+    </div>
+</body>
+</html>
