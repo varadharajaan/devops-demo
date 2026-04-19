@@ -16,8 +16,8 @@ phases:
       - pip install -r requirements.txt
       - echo "[$(date '+%H:%M:%S')] Installing test dependencies..."
       - pip install pytest flake8
-      - echo "[$(date '+%H:%M:%S')] Python version: $(python --version)"
-      - echo "[$(date '+%H:%M:%S')] Pip packages installed:"
+      - "echo \"[$(date '+%H:%M:%S')] Python version: $(python --version)\""
+      - "echo \"[$(date '+%H:%M:%S')] Pip packages installed:\""
       - pip list --format=columns
       - echo "[$(date '+%H:%M:%S')] INSTALL PHASE COMPLETED"
 
