@@ -28,4 +28,4 @@ def test_health_endpoint(client):
 def test_health_returns_correct_code(client):
     response = client.get("/health")
     # BUG: health returns 200, but we assert 201 — causes CI failure!
-    assert response.status_code == 201, "Expected 201 but got 200 — fix this to 200 to pass!"
+    assert response.status_code == 200, "Expected 201 but got 200 — fix this to 200 to pass!"
