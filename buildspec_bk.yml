@@ -40,8 +40,9 @@ phases:
       - echo "[$APP_NAME] BUILD PHASE STARTED at $(date '+%Y-%m-%d %H:%M:%S %Z')"
       - echo "=========================================="
       - echo "[$(date '+%H:%M:%S')] Packaging application artifact..."
+      - zip -r /tmp/$APP_NAME-$CODEBUILD_BUILD_NUMBER.zip . -x ".git/*" "tests/*" "buildspec.yml" "package.bat" "package.sh" "README.md" "runtime.txt" "__pycache__/*"
       - echo "[$(date '+%H:%M:%S')] Artifact contents:"
-      - find . -not -path './.git/*' -not -path './.git' | head -50
+      - unzip -l /tmp/$APP_NAME-$CODEBUILD_BUILD_NUMBER.zip | head -30
       - echo "[$(date '+%H:%M:%S')] BUILD PHASE COMPLETED"
 
   post_build:
@@ -49,7 +50,12 @@ phases:
       - echo "=========================================="
       - echo "[$APP_NAME] POST_BUILD PHASE at $(date '+%Y-%m-%d %H:%M:%S %Z')"
       - echo "=========================================="
-      - echo "[$(date '+%H:%M:%S')] Build finished. Deploying to Elastic Beanstalk..."
+      - S3_BUCKET="devops-demo-deploy-996335889295"
+      - S3_KEY="builds/$APP_NAME-$CODEBUILD_BUILD_NUMBER.zip"
+      - echo "[$(date '+%H:%M:%S')] Uploading artifact to s3://$S3_BUCKET/$S3_KEY"
+      - aws s3 cp /tmp/$APP_NAME-$CODEBUILD_BUILD_NUMBER.zip s3://$S3_BUCKET/$S3_KEY
+      - echo "[$(date '+%H:%M:%S')] Upload complete!"
+      - echo "[$(date '+%H:%M:%S')] Deploying to Elastic Beanstalk..."
       - echo "[$(date '+%H:%M:%S')] PIPELINE COMPLETE"
 
 artifacts:
